@@ -1,8 +1,9 @@
+/*-------------------------------------------------------------------------------*/
 
 /* This code was written by: */
 /* Fredrik Hammarbäck */
 
-/*--------------------------------*/
+/*-------------------------------------------------------------------------------*/
 
 const bodyParser = require('body-parser')
 const express = require('express');
@@ -18,25 +19,27 @@ app.listen(
     () => console.log(`API:et är aktivt och lyssnar nu på http://localhost:${PORT}`)
 )
 
-/*--Exempeldatabas-med-förinskrivna-värden--*/
+/*-- Exempeldatabas med förinskrivna värden -------------------------------------*/
 
 var database = [
 
-    {id: 45, lastName: "Hammarbäck", firstName: "Fredrik", email: "email@email.com"},
-    {id: 78, lastName: "Svensson", firstName: "Sven", email: "email@email.com"},
-    {id: 56, lastName: "Karlsson", firstName: "Karl", email: "email@email.com"}
+    {id: 39, lastName: "Eriksson", firstName: "Erik", email: "erik.eriksson@email.com"},
+    {id: 45, lastName: "Svensson", firstName: "Sven", email: "sven.svensson@email.com"},
+    {id: 56, lastName: "Karlsson", firstName: "Karl", email: "karl.karlsson@email.com"},
+    {id: 68, lastName: "Johansson", firstName: "Johan", email: "johan.johansson@email.com"},
+    {id: 85, lastName: "Kermitsson", firstName: "Grodan", email: "grodan.kermitsson@email.com"}
 
 ];
 
 var entry = {};
 
-/*--Variabler--*/
+/*-- Variabler ------------------------------------------------------------------*/
 
 var found = false;
 var inclusion = true;
 var idx = -1;
 
-/*--GET-kommando-som returnerar-innehållet-i-databasen--*/
+/*-- GET-kommando som returnerar innehållet i databasen -------------------------*/
 
 app.get('/personal', (req, res) => {
     
@@ -50,12 +53,12 @@ app.get('/personal', (req, res) => {
 
 });
 
-/*--POST-kommando-som-skriver-in-angivna-värden-i-databasen--*/
+/*-- POST-kommando som skriver in angivna värden i databasen --------------------*/
 
 app.post('/personal', (req, res) => {
 
     
-    /* Koll för att säkerställa att det angivna id:t inte redan finns i databasen */
+    /* Koll för att säkerställa att det angivna ID:t inte redan finns i databasen */
     
     for (let i = 0; i < database.length; i++){
 
@@ -67,7 +70,7 @@ app.post('/personal', (req, res) => {
 
     inclusionCheck(req.body.id,req.body.lastName,req.body.firstName,req.body.email);
 
-    /* Om båda kollarna ovan genererar önskvärda resultat skrivs ett nytt entry in i databasen och respons skickas */
+    /* Om båda kollarna ovan genererar önskvärda resultat skrivs ett nytt entry in i databasen och respons skickas som svar */
 
     if (found==false && inclusion==true){
             
@@ -132,10 +135,12 @@ app.post('/personal', (req, res) => {
 
 });
 
-/*--DELETE-kommando-som-tar-bort-*/
+/*-- DELETE-kommando som tar bort personal med hjälp av ID:t som anges i URI:n --*/
 
 app.delete('/personal/:id', (req, res) => {
 
+    /* Koll för att hitta det angivna ID:t i databasen. Det index där ID:n hittas noteras i variabeln 'idx' */
+    
     for (let i = 0; i < database.length; i++){
 
         existCheck(i,req.params.id);
@@ -148,6 +153,8 @@ app.delete('/personal/:id', (req, res) => {
         }
 
     }
+
+    /* Om ett index har noterats i variabeln 'idx' tas det indexet bort ur databasen och respons skickas */
 
     if (idx!=-1){
 
@@ -177,7 +184,7 @@ app.delete('/personal/:id', (req, res) => {
 
 });
 
-/*------------------------------*/
+/*-- Funktion för att leta upp ett visst ID i databasen -------------------------*/
 
 function existCheck(i,providedId){
 
@@ -189,7 +196,7 @@ function existCheck(i,providedId){
 
 }
 
-/*------------------------------*/
+/*-- Funktion för att kontrollera att req.body innehåller allt den skall --------*/
 
 function inclusionCheck(id,lastName,firstName,email){
 
@@ -201,8 +208,8 @@ function inclusionCheck(id,lastName,firstName,email){
 
 }
 
-/*------------------------------*/
+/*-- Exports --------------------------------------------------------------------*/
 
 module.exports = app;
 
-/*------------------------------*/
+/*-------------------------------------------------------------------------------*/

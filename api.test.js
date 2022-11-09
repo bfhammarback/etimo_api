@@ -1,13 +1,14 @@
+/*-------------------------------------------------------------------------------*/
 
 /* This code was written by: */
 /* Fredrik Hammarbäck */
 
-/*--------------------------------*/
+/*-------------------------------------------------------------------------------*/
 
 const request = require('supertest');
-const app = require("./index");
+const app = require("./api");
 
-/*--------------------------------*/
+/*-------------------------------------------------------------------------------*/
 
 describe("Tester för att kontrollera endpoints.", () => {
 
@@ -18,6 +19,8 @@ describe("Tester för att kontrollera endpoints.", () => {
     expect(response.statusCode).toBe(200);
 
   });
+
+  /*------------------------------------------------*/
 
   test("POST med JSON-body genererar korrekt statuskod (201).", async () => {
 
@@ -35,6 +38,8 @@ describe("Tester för att kontrollera endpoints.", () => {
 
   });
 
+  /*------------------------------------------------*/
+
   test("DELETE genererar korrekt statuskod (200).", async () => {
 
     const response = await request(app)
@@ -45,6 +50,8 @@ describe("Tester för att kontrollera endpoints.", () => {
 
 });
 
+/*-------------------------------------------------------------------------------*/
+
 describe("Tester för att kontrollera att fel ger rätt statuskod.", () => {
 
   test("Felstavning av URI genererar korrekt statuskod (404).", async () => {
@@ -54,6 +61,8 @@ describe("Tester för att kontrollera att fel ger rätt statuskod.", () => {
     expect(response.statusCode).toBe(404);
 
   });
+
+  /*------------------------------------------------*/
 
   test("POST med ID som redan finns i databasen genererar korrekt statuskod (409).", async () => {
 
@@ -70,6 +79,8 @@ describe("Tester för att kontrollera att fel ger rätt statuskod.", () => {
     expect(response.statusCode).toBe(409);
 
   });
+
+  /*------------------------------------------------*/
   
   test("POST med tom variabel genererar korrekt statuskod (400).", async () => {
 
@@ -87,6 +98,8 @@ describe("Tester för att kontrollera att fel ger rätt statuskod.", () => {
 
   });
 
+  /*------------------------------------------------*/
+
   test("POST med utebliven variabel genererar korrekt statuskod (400).", async () => {
 
     const response = await request(app)
@@ -102,6 +115,8 @@ describe("Tester för att kontrollera att fel ger rätt statuskod.", () => {
 
   });
 
+  /*------------------------------------------------*/
+
   test("DELETE med ID som inte finns i databasen genererar korrekt statuskod (400).", async () => {
 
     const response = await request(app)
@@ -111,3 +126,5 @@ describe("Tester för att kontrollera att fel ger rätt statuskod.", () => {
   });
 
 });
+
+/*-------------------------------------------------------------------------------*/
